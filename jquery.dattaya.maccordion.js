@@ -3,17 +3,18 @@
  * v. 0.0.-1
  */
 
-(function ($, undefined) {
+(function( $, undefined ) {
     $.widget( "dattaya.maccordion", {
-    	options: {
-            active: 0,
-            header: "> li > :first-child,> :not(li):even",
-            event:  "click",
-            easing: "swing",
-            speed:  "normal",
-            disabled: false,
-            heightStyle: "auto"
-    	},
+        options: {
+            active     : 0,
+            header     : "> li > :first-child,> :not(li):even",
+            event      : "click",
+            easing     : "swing",
+            speed      : "normal",
+            disabled   : false,
+            heightStyle: "auto",
+            animated   : true
+        },
 
         /**
          *
@@ -32,21 +33,14 @@
             //ARIA
             this._toggleAttributes( $header, [ "aria-selected", "aria-expanded" ] );
 
-            $header.next()
-                .slideToggle( this.options.speed, this.options.easing )
-                .toggleClass( "dattaya-maccordion-content-active" )
-                ;
-/*
-//                $header.next().stop()
-//                        .animate( {
-//                            height: "toggle",
-//                            paddingTop: "toggle",
-//                            paddingBottom: "toggle"
-//                        }, {
-//                            duration: this.options.speed,
-//                            queue: "false",
-//                            easing: this.options.easing
-//                        }); */
+            if ( this.options.animated ) {
+                $header.next()
+                    .slideToggle( this.options.speed, this.options.easing );
+            } else {
+                $header.next().toggle();
+            }
+
+            $header.next().toggleClass( "dattaya-maccordion-content-active" );
 
         },
 
@@ -71,7 +65,7 @@
 
         },
 
-    	_create: function() {
+        _create: function() {
 
             var self = this,
                 options = self.options;
@@ -81,11 +75,11 @@
 
             self.$headers = self.element.find( options.header )
                 .addClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
-                    "ui-corner-all" );
+                "ui-corner-all" );
 
             self.$headers.next()
                 .addClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
-                    "ui-corner-bottom" );
+                "ui-corner-bottom" );
 
             // ARIA {
             self.element
@@ -93,12 +87,12 @@
                 .attr( "role", "tablist" );
 
             self.$headers
-                .attr({
-                    role: "tab",
-                    tabindex: -1,
-                    "aria-selected": false,
-                    "aria-expanded": false
-                });
+                .attr( {
+                role           : "tab",
+                tabindex       : -1,
+                "aria-selected": false,
+                "aria-expanded": false
+            } );
 
             self._expandTabs( options.active );
 
@@ -112,43 +106,43 @@
             // }
 
             self.$headers
-                .on({
-                    "mouseenter.maccordion": function() {
-                        if ( options.disabled ) {
-                            return;
-                        }
-                        $( this ).addClass( "ui-state-hover" );
-                    },
-                    "mouseleave.maccordion": function() {
-                        if ( options.disabled ) {
-                            return;
-                        }
-                        $( this ).removeClass( "ui-state-hover" );
-                    },
-                    "focus.maccordion": function() {
-                        if ( options.disabled ) {
-                            return;
-                        }
-                        console.debug( "focus" );
-                        $( this )
-                                .addClass( "ui-state-focus" );
-                    },
-                    "blur.maccordion": function() {
-                        if ( options.disabled ) {
-                            return;
-                        }
-                        $( this ).removeClass( "ui-state-focus" );
+                .on( {
+                "mouseenter.maccordion": function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    $( this ).addClass( "ui-state-hover" );
+                },
+                "mouseleave.maccordion": function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    $( this ).removeClass( "ui-state-hover" );
+                },
+                "focus.maccordion"     : function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    console.debug( "focus" );
+                    $( this )
+                        .addClass( "ui-state-focus" );
+                },
+                "blur.maccordion"      : function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    $( this ).removeClass( "ui-state-focus" );
 
-                        console.debug( "blur" );
-                    },
-                    "keydown.maccordion": $.proxy( self, "_keydown" )
-                });
+                    console.debug( "blur" );
+                },
+                "keydown.maccordion"   : $.proxy( self, "_keydown" )
+            } );
 
             self._setupEvents( options.event );
 
             self.refresh();
 
-    	},
+        },
 
         destroy: function() {
             //clean up main element
@@ -160,16 +154,16 @@
             this.$headers
                 .off( ".maccordion" )
                 .removeClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
-                    "ui-corner-all ui-state-active ui-corner-top dattaya-maccordion-header-active " +
-                    "ui-maccordion-disabled ui-state-disabled" )
+                "ui-corner-all ui-state-active ui-corner-top dattaya-maccordion-header-active " +
+                "ui-maccordion-disabled ui-state-disabled" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
 
             //clean up content
             this.$headers.next()
                 .css( "display", "" )
                 .removeClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
-                    "ui-corner-bottom dattaya-maccordion-content-active " +
-                    "ui-maccordion-disabled ui-state-disabled" )
+                "ui-corner-bottom dattaya-maccordion-content-active " +
+                "ui-maccordion-disabled ui-state-disabled" )
                 .removeAttr( "role" );
 
             console.debug( "destroy" );
@@ -195,9 +189,9 @@
 
             console.debug( "expandTabs" );
 
-            $toExpand.each(function() {
+            $toExpand.each( function() {
                 self._animate( $( this ) );
-            });
+            } );
         },
 
         _keydown: function( event ) {
@@ -205,7 +199,7 @@
                 return;
             }
 
-            if ( event.target != event.currentTarget  ) {
+            if ( event.target != event.currentTarget ) {
                 return;
             }
 
@@ -223,7 +217,7 @@
                     break;
                 case keyCode.LEFT:
                 case keyCode.UP:
-                    toFocus = ( length + currentIndex - 1 ) % length ;
+                    toFocus = ( length + currentIndex - 1 ) % length;
                     break;
                 case keyCode.SPACE:
                 case keyCode.ENTER:
@@ -248,9 +242,9 @@
             if ( options.heightStyle === "auto" ) {
                 var maxHeight = 0;
                 this.$headers.next()
-                    .each(function() {
+                    .each( function() {
                         maxHeight = Math.max( maxHeight, $( this ).height() );
-                    })
+                    } )
                     .height( maxHeight );
 
             }
@@ -318,7 +312,7 @@
                 } else {
                     $oneEl.attr( attr, true );
                 }
-            });
+            } );
         },
 
         _transformActiveToElement: function( active ) {
@@ -328,17 +322,17 @@
                 case typeof active === "string":
                     return this.$headers;
                 case $.isArray( active ):
-                    return this.$headers.not( function ( index ) {
+                    return this.$headers.not( function( index ) {
                         return $.inArray( index, active );
-                    });
+                    } );
                 default:
-                    return $([]);
+                    return $( [] );
             }
         }
 
-    });
+    } );
 
-})(jQuery);
+})( jQuery );
 
 //TODO Implement all standart options
 

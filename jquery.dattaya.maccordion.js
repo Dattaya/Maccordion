@@ -333,11 +333,3 @@
     } );
 
 })( jQuery );
-
-//TODO Implement all standart options
-
-//TODO Refresh should working on dynamically added elements.
-//TODO If _toggleAttributes uses only once, remove
-//TODO Add effect function to options
-//TODO Write tests
-

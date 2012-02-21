@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JQuery UI Dattaya Maccordion Test Suite</title>
+
+    <!--JQuery/UI loader-->
+    <script src="helpers/resource_loader.js"></script>
+
+    <!--QUnit-->
+    <script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css">
+
+    <!--QUnit helpers-->
+    <script src="helpers/qunit_helpers.js"></script>
+
+    <!--Other-->
+    <script src="helpers/console.js"></script>
+
+    <!--Maccordion-->
+    <script src="../jquery.dattaya.maccordion.js"></script>
+    <link rel="stylesheet" href="../jquery-dattaya-maccordion.css">
+
+    <!--Test helpers-->
+    <script src="helpers/test_helpers.js"></script>
+
+    <!--Tests-->
+    <script src="maccordion_initial_state.js"></script>
+    <script src="maccordion_triggering_events.js"></script>
+
+</head>
+<body>
+<h1 id="qunit-header">JQuery UI Dattaya Maccordion Test Suite</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">
+    <div id="div">
+        <div><a href="#">Header</a></div>
+        <div style="height: 50px;">Content<br><br><br><br><br><br></div>
+
+        <h3 class="test"><a href="#">Header</a></h3>
+        <div><p>Content</p></div>
+
+        <h3><a href="#">Header</a></h3>
+        <div><p>Content</p></div>
+    </div>
+
+</div>
+</body>
+</html>

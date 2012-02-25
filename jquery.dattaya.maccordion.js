@@ -22,10 +22,11 @@
          */
         _animate: function( $header ) {
 
+            //TODO When all tests will be written try to remove this 'if'
             if ( $header.length == 0 )
                 return;
 
-            console.debug( "animate" );
+            console.debug( "_animate" );
 
             $header
                 .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" );
@@ -94,8 +95,10 @@
                 "aria-expanded": false
             } );
 
-            self._expandTabs( options.active );
+            self._rollUnrollTabs( options.active );
 
+            //TODO Replace self.$expanded by find("header-active")
+            //TODO Test this tabindex behavior
             self.$zeroTabIndex = self.$headers
                 .filter( self.$expanded[0] ? self.$expanded[0] : ":eq(0)" )
                 .attr( "tabindex", 0 );
@@ -175,19 +178,15 @@
          *
          * @param {Number[]|String|Boolean} active
          */
-        _expandTabs: function( active ) {
+        _rollUnrollTabs: function( active ) {
             var self = this;
 
             var $expandable = this._transformActiveToElement( active ),
                 $toExpand = $expandable;
 
-            if ( self.$expanded ) {
-                $toExpand = $expandable.not( self.$expanded );
-            }
-
             self.$expanded = $expandable;
 
-            console.debug( "expandTabs" );
+            console.debug( "_rollUnrollTabs" );
 
             $toExpand.each( function() {
                 self._animate( $( this ) );
@@ -255,11 +254,12 @@
 
             var options = this.options;
 
-            if ( options[ key ] === value ) {
-                return;
-            }
+            //TODO This optimization breaks { active: value }(when collapsible: true) behavior. So should probably be deleted.
+//            if ( options[ key ] === value ) {
+//                return;
+//            }
 
-            console.debug( "setOption" );
+            console.debug( "_setOption" );
 
             if ( key === "event" ) {
                 if ( options.event ) {
@@ -276,11 +276,11 @@
             switch ( key ) {
                 case "disabled":
                     this.$headers.add( this.$headers.next() )
-                        .toggleClass( "ui-maccordion-disabled ui-state-disabled", !!value );
+                        .toggleClass( "dattaya-maccordion-disabled ui-state-disabled", !!value );
                     break;
 
                 case "active":
-                    this._expandTabs( value );
+                    this._rollUnrollTabs( value );
                     break;
 
             }
@@ -304,7 +304,7 @@
         _toggleAttributes: function( $oneEl, attributes ) {
             attributes = ( typeof attributes === "string" ) ? [ attributes ] : attributes;
 
-            console.debug( "toggleAttributes" );
+            console.debug( "_toggleAttributes" );
 
             $.each( attributes, function( index, attr ) {
                 if ( $oneEl.attr( attr ) == "true" ) {
@@ -316,15 +316,24 @@
         },
 
         _transformActiveToElement: function( active ) {
+
+            if ( active instanceof jQuery ) {
+                return active.filter( ".dattaya-maccordion-header" );
+            }
+
             switch ( true ) {
                 case $.isNumeric( active ):
                     return this.$headers.eq( active );
-                case typeof active === "string":
+                case active === true:
+                    return this.$headers.not( ".dattaya-maccordion-header-active" );
+                case active === "toggle":
                     return this.$headers;
                 case $.isArray( active ):
                     return this.$headers.not( function( index ) {
-                        return $.inArray( index, active );
+                        return $.inArray( index, active ) === -1;
                     } );
+                case active === false:
+                    return this.$headers.filter( ".dattaya-maccordion-header-active" );
                 default:
                     return $( [] );
             }
@@ -333,3 +342,5 @@
     } );
 
 })( jQuery );
+
+

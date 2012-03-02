@@ -18,30 +18,29 @@
 
         /**
          *
-         * @param {jQuery} $header
+         * @param {jQuery} $headers
          */
-        _animate: function( $header ) {
+        _toggle: function( $headers ) {
 
-            //TODO When all tests will be written try to remove this 'if'
-            if ( $header.length == 0 )
+            if ( $headers.length == 0 )
                 return;
 
-            console.debug( "_animate" );
+            console.debug( "_toggle" );
 
-            $header
+            $headers
                 .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" );
 
-            //ARIA
-            this._toggleAttributes( $header, [ "aria-selected", "aria-expanded" ] );
+            // ARIA
+            $headers.maccordionToggleAttributes( "aria-selected aria-expanded" );
 
             if ( this.options.animated ) {
-                $header.next()
+                $headers.next()
                     .slideToggle( this.options.speed, this.options.easing );
             } else {
-                $header.next().toggle();
+                $headers.next().toggle();
             }
 
-            $header.next().toggleClass( "dattaya-maccordion-content-active" );
+            $headers.next().toggleClass( "dattaya-maccordion-content-active" );
 
         },
 
@@ -56,14 +55,11 @@
                 return;
             }
 
-            var $header = $( event.currentTarget );
-
             console.debug( event.type === "keypress" ? "click" : event.type );
 
-            this._animate( $header );
+            this._toggle( $( event.currentTarget ) );
 
             event.preventDefault();
-
         },
 
         _create: function() {
@@ -82,6 +78,17 @@
                 .addClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom" );
 
+            // HELPERS {
+            $.fn.maccordionToggleAttributes = function( attributes ) {
+                attributes = $.trim( attributes ).split( " " );
+                this.each( function( index, el ) {
+                    $.each( attributes, function( index, attr ) {
+                        $( el ).attr( attr, $( el ).attr( attr ) != "true" );
+                    } );
+                } );
+            };
+            // }
+
             // ARIA {
             self.element
                 .attr( "aria-multiselectable", true )
@@ -95,17 +102,12 @@
                 "aria-expanded": false
             } );
 
-            self._rollUnrollTabs( options.active );
+            self._toggleActive( options.active );
 
-            //TODO Replace self.$expanded by find("header-active")
-            //TODO Test this tabindex behavior
-            self.$zeroTabIndex = self.$headers
-                .filter( self.$expanded[0] ? self.$expanded[0] : ":eq(0)" )
-                .attr( "tabindex", 0 );
+            self._setZeroTabindex();
 
             self.$headers.next()
                 .attr( "role", "tabpanel" );
-
             // }
 
             self.$headers
@@ -148,12 +150,12 @@
         },
 
         destroy: function() {
-            //clean up main element
+            // clean up main element
             this.element
                 .removeClass( "dattaya-maccordion ui-widget ui-helper-reset" )
                 .removeAttr( "aria-multiselectable role" );
 
-            //clean up headers
+            // clean up headers
             this.$headers
                 .off( ".maccordion" )
                 .removeClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
@@ -161,7 +163,7 @@
                 "ui-maccordion-disabled ui-state-disabled" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
 
-            //clean up content
+            // clean up content
             this.$headers.next()
                 .css( "display", "" )
                 .removeClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
@@ -176,24 +178,17 @@
 
         /**
          *
-         * @param {Number[]|String|Boolean} active
+         * @param {Number[]|String|Boolean|jQuery} active
          */
-        _rollUnrollTabs: function( active ) {
-            var self = this;
+        _toggleActive: function( active ) {
 
-            var $expandable = this._transformActiveToElement( active ),
-                $toExpand = $expandable;
+            console.debug( "_toggleActive" );
 
-            self.$expanded = $expandable;
-
-            console.debug( "_rollUnrollTabs" );
-
-            $toExpand.each( function() {
-                self._animate( $( this ) );
-            } );
+            this._toggle( this._transformActiveToElement( active ) );
         },
 
         _keydown: function( event ) {
+
             if ( this.options.disabled || event.altKey || event.ctrlKey ) {
                 return;
             }
@@ -227,8 +222,7 @@
             }
 
             if ( toFocus !== false ) {
-                this.$zeroTabIndex.attr( "tabindex", -1 );
-                this.$zeroTabIndex = this.$headers.eq( toFocus ).attr( "tabindex", 0 ).focus();
+                this._setZeroTabindex( this.$headers.eq( toFocus ).focus() );
             }
 
             event.preventDefault();
@@ -245,7 +239,6 @@
                         maxHeight = Math.max( maxHeight, $( this ).height() );
                     } )
                     .height( maxHeight );
-
             }
 
         },
@@ -254,7 +247,7 @@
 
             var options = this.options;
 
-            //TODO This optimization breaks { active: value }(when collapsible: true) behavior. So should probably be deleted.
+            //TODO This optimization breaks { active: [array] } behavior. So should probably be deleted.
 //            if ( options[ key ] === value ) {
 //                return;
 //            }
@@ -272,7 +265,6 @@
 
             $.Widget.prototype._setOption.apply( this, arguments );
 
-
             switch ( key ) {
                 case "disabled":
                     this.$headers.add( this.$headers.next() )
@@ -280,9 +272,8 @@
                     break;
 
                 case "active":
-                    this._rollUnrollTabs( value );
+                    this._toggleActive( value );
                     break;
-
             }
         },
 
@@ -293,26 +284,19 @@
                 this.$headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
                     $.proxy( self, "_eventHandler" ) );
             }
-
         },
-
-        /**
-         *
-         * @param {jQuery} $oneEl
-         * @param {String|String[]} attributes
-         */
-        _toggleAttributes: function( $oneEl, attributes ) {
-            attributes = ( typeof attributes === "string" ) ? [ attributes ] : attributes;
-
-            console.debug( "_toggleAttributes" );
-
-            $.each( attributes, function( index, attr ) {
-                if ( $oneEl.attr( attr ) == "true" ) {
-                    $oneEl.attr( attr, false );
-                } else {
-                    $oneEl.attr( attr, true );
-                }
-            } );
+        //TODO Refactor
+        _setZeroTabindex: function( $header ) {
+            if ( !this.$zeroTabIndex ) {
+                var $expanded = this.$headers.find( ".dattaya-maccordion-header-active" ).eq( 0 );
+                this.$zeroTabIndex = this.$headers
+                    .filter( $expanded[0] ? $expanded[0] : ":eq(0)" )
+                    .attr( "tabindex", 0 );
+            }
+            if ( $header ) {
+                this.$zeroTabIndex.attr( "tabindex", -1 );
+                this.$zeroTabIndex = $header.attr( "tabindex", 0 );
+            }
         },
 
         _transformActiveToElement: function( active ) {

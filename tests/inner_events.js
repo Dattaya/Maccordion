@@ -1,39 +1,9 @@
 (function( $ ) {
     module( "maccordion: triggering events", setupTeardown() );
 
-    test( "click: closed tab", function() {
-
-        var $header = $( "#div" ).maccordion( { "animated": true } )
-            .find( ".dattaya-maccordion-header:not(.dattaya-maccordion-header-active):first" ).click();
-
-        ok( $header.is( ".dattaya-maccordion-header-active" ), "clicked header has class dattaya-maccordion-header-active" );
-
-        ok( $header.next().is( ":visible" ), "clicked header makes content visible" );
-
-        ok( $header.next().is( ":animated" ), "clicked header makes content element animated" );
-
-    } );
-
-    test( "click: opened tab", function() {
-
-        var $header = $( "#div" ).maccordion()
-            .find( ".dattaya-maccordion-header-active" ).click();
-
-        ok( $header.next().is( ":hidden" ), "clicked header makes content hidden" );
-
-        $header.click()
-            .parent()
-                .maccordion( { "animated": true } )
-                .end()
-            .click();
-
-        ok( $header.next().is( ":animated" ), "clicked header makes content element animated" );
-
-    } );
-
     test( "keydown: ENTER", function() {
 
-        var $header = $( "#div" ).maccordion()
+        var $header = this.$div.maccordion()
             .find( ".dattaya-maccordion-header-active" )
             .trigger( $.Event( "keydown", { keyCode: $.ui.keyCode.ENTER } ) );
 

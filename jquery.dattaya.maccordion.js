@@ -104,7 +104,7 @@
 
             self._toggleActive( options.active );
 
-            self._setZeroTabindex();
+            self._setZeroTabindex( this.$headers.eq( 0 ) );
 
             self.$headers.next()
                 .attr( "role", "tabpanel" );
@@ -285,18 +285,15 @@
                     $.proxy( self, "_eventHandler" ) );
             }
         },
-        //TODO Refactor
+
         _setZeroTabindex: function( $header ) {
-            if ( !this.$zeroTabIndex ) {
-                var $expanded = this.$headers.find( ".dattaya-maccordion-header-active" ).eq( 0 );
-                this.$zeroTabIndex = this.$headers
-                    .filter( $expanded[0] ? $expanded[0] : ":eq(0)" )
-                    .attr( "tabindex", 0 );
-            }
-            if ( $header ) {
+
+            if ( this.$zeroTabIndex ) {
                 this.$zeroTabIndex.attr( "tabindex", -1 );
-                this.$zeroTabIndex = $header.attr( "tabindex", 0 );
             }
+
+            this.$zeroTabIndex = $header.attr( "tabindex", 0 );
+
         },
 
         _transformActiveToElement: function( active ) {

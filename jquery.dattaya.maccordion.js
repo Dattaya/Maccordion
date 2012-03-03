@@ -260,7 +260,6 @@
                 }
 
                 this._setupEvents( value );
-                return;
             }
 
             $.Widget.prototype._setOption.apply( this, arguments );

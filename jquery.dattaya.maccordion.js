@@ -12,7 +12,7 @@
             easing     : "swing",
             speed      : "normal",
             disabled   : false,
-            heightStyle: "auto",
+            heightStyle: false,
             animated   : true
         },
 
@@ -41,7 +41,6 @@
             }
 
             $headers.next().toggleClass( "dattaya-maccordion-content-active" );
-
         },
 
         /**
@@ -128,7 +127,9 @@
                     if ( options.disabled ) {
                         return;
                     }
+
                     console.debug( "focus" );
+
                     $( this )
                         .addClass( "ui-state-focus" );
                 },
@@ -146,7 +147,6 @@
             self._setupEvents( options.event );
 
             self.refresh();
-
         },
 
         destroy: function() {
@@ -160,7 +160,7 @@
                 .off( ".maccordion" )
                 .removeClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
                 "ui-corner-all ui-state-active ui-corner-top dattaya-maccordion-header-active " +
-                "ui-maccordion-disabled ui-state-disabled" )
+                "ui-maccordion-disabled ui-state-disabled ui-state-focus ui-state-hover" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
 
             // clean up content
@@ -226,7 +226,6 @@
             }
 
             event.preventDefault();
-
         },
 
         refresh: function() {
@@ -240,7 +239,6 @@
                     } )
                     .height( maxHeight );
             }
-
         },
 
         _setOption: function( key, value ) {
@@ -292,7 +290,6 @@
             }
 
             this.$zeroTabIndex = $header.attr( "tabindex", 0 );
-
         },
 
         _transformActiveToElement: function( active ) {
@@ -322,5 +319,3 @@
     } );
 
 })( jQuery );
-
-

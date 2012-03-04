@@ -39,7 +39,7 @@
         //TODO Test animated
     } );
 
-    test( "active: false", function() {
+    test( "active: #false", function() {
         this.$div.maccordion( { active: 2 } );
         this.$div.maccordion( { active: false } );
 
@@ -49,7 +49,7 @@
 
     } );
 
-    test( "active: true", function() {
+    test( "active: #true", function() {
         this.$div.maccordion( { active: 1 } );
         this.$div.maccordion( { active: true } );
 
@@ -59,7 +59,7 @@
 
     } );
 
-    test( "active: number", function() {
+    test( "active: #number", function() {
         this.$div.maccordion( { active: 2 } );
 
         maccordion_state_helper( this.$div, 0, 0, 1, "third content panel should be opened" );
@@ -72,7 +72,7 @@
 
     } );
 
-    test( "active: toggle", function() {
+    test( "active: #toggle", function() {
         this.$div.maccordion( { active: [ 1 ] } );
         this.$div.maccordion( { active: "toggle" } );
 
@@ -82,7 +82,7 @@
 
     } );
 
-    test( "active: array", function() {
+    test( "active: #array", function() {
         this.$div.maccordion( { active: [ 0, 2 ] } );
 
         maccordion_state_helper( this.$div, 1, 0, 1, "first and third content panels should be opened" );
@@ -95,7 +95,7 @@
 
     } );
 
-    test( "active: wrapped set", function() {
+    test( "active: #wrapped set", function() {
         this.$div.maccordion( { active: this.$headers } );
 
         maccordion_state_helper( this.$div, 1, 1, 1 );
@@ -125,6 +125,33 @@
         maccordion_state_helper( this.$div, 0, 0, 0 );
 
     } );
+
+    test( "disabled: classes", function() {
+        this.$div.maccordion( { disabled: true } );
+
+        strictEqual( this.$div.maccordion( "option", "disabled" ), true );
+
+        ok( this.$headers.add( this.$headers.next() ).are( ".dattaya-maccordion-disabled.ui-state-disabled" ) );
+
+        this.$div.maccordion( { disabled: false } );
+
+        ok( this.$headers.add( this.$headers.next() ).are( ":not(.dattaya-maccordion-disabled.ui-state-disabled)" ) );
+
+    } );
+
+    test( "disabled: action", function() {
+        this.$div.maccordion( { disabled: true } );
+        this.$headers.click();
+
+        maccordion_state_helper( this.$div, 0, 0, 0 );
+
+    } );
+
+//    test( "heightStyle: #auto", function() {
+        //TODO?
+//    } );
+
+
 
 
 })( jQuery );

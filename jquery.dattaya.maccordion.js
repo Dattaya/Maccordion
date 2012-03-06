@@ -62,20 +62,15 @@
         },
 
         _create: function() {
-
             var self = this,
                 options = self.options;
 
             self.element
                 .addClass( "dattaya-maccordion ui-widget ui-helper-reset" );
 
-            self.$headers = self.element.find( options.header )
-                .addClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
-                "ui-corner-all" );
+            self.$headers = self.element.find( options.header );
 
-            self.$headers.next()
-                .addClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
-                "ui-corner-bottom" );
+            this._setupTabs( self.$headers );
 
             // HELPERS {
             $.fn.maccordionToggleAttributes = function( attributes ) {
@@ -93,58 +88,10 @@
                 .attr( "aria-multiselectable", true )
                 .attr( "role", "tablist" );
 
-            self.$headers
-                .attr( {
-                role           : "tab",
-                tabindex       : -1,
-                "aria-selected": false,
-                "aria-expanded": false
-            } );
-
-            self._toggleActive( options.active );
+            self._activate( options.active );
 
             self._setZeroTabindex( this.$headers.eq( 0 ) );
-
-            self.$headers.next()
-                .attr( "role", "tabpanel" );
             // }
-
-            self.$headers
-                .on( {
-                "mouseenter.maccordion": function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    $( this ).addClass( "ui-state-hover" );
-                },
-                "mouseleave.maccordion": function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    $( this ).removeClass( "ui-state-hover" );
-                },
-                "focus.maccordion"     : function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-
-                    console.debug( "focus" );
-
-                    $( this )
-                        .addClass( "ui-state-focus" );
-                },
-                "blur.maccordion"      : function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    $( this ).removeClass( "ui-state-focus" );
-
-                    console.debug( "blur" );
-                },
-                "keydown.maccordion"   : $.proxy( self, "_keydown" )
-            } );
-
-            self._setupEvents( options.event );
 
             self.refresh();
         },
@@ -180,9 +127,9 @@
          *
          * @param {Number[]|String|Boolean|jQuery} active
          */
-        _toggleActive: function( active ) {
+        _activate: function( active ) {
 
-            console.debug( "_toggleActive" );
+            console.debug( "_activate" );
 
             this._toggle( this._transformActiveToElement( active ) );
         },
@@ -239,10 +186,13 @@
                     } )
                     .height( maxHeight );
             }
+
+            this._setupTabs( this.element.find( options.header ).not( this.$headers ) );
+            this.$headers = this.element.find( options.header );
+
         },
 
         _setOption: function( key, value ) {
-
             var options = this.options;
 
             //TODO This optimization breaks { active: [array] } behavior. So should probably be deleted.
@@ -257,7 +207,7 @@
                     this.$headers.off( options.event.split( " " ).join( ".maccordion " ) + ".maccordion" );
                 }
 
-                this._setupEvents( value );
+                this._setupEvents( value, this.$headers );
             }
 
             $.Widget.prototype._setOption.apply( this, arguments );
@@ -269,18 +219,76 @@
                     break;
 
                 case "active":
-                    this._toggleActive( value );
+                    this._activate( value );
                     break;
             }
         },
 
-        _setupEvents: function( event ) {
+        _setupEvents: function( event, $headers ) {
             var self = this;
 
             if ( event ) {
-                this.$headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
+                $headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
                     $.proxy( self, "_eventHandler" ) );
             }
+        },
+
+        _setupTabs: function( $headers ) {
+            var options = this.options;
+
+            $headers.addClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
+                "ui-corner-all" );
+
+            $headers.next()
+                .addClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
+                "ui-corner-bottom" );
+
+            this._setupEvents( options.event, $headers );
+
+            $headers
+                .attr( {
+                role           : "tab",
+                tabindex       : -1,
+                "aria-selected": false,
+                "aria-expanded": false
+            } );
+
+            $headers.next()
+                .attr( "role", "tabpanel" );
+
+            $headers
+                .on( {
+                "mouseenter.maccordion": function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    $( this ).addClass( "ui-state-hover" );
+                },
+                "mouseleave.maccordion": function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    $( this ).removeClass( "ui-state-hover" );
+                },
+                "focus.maccordion"     : function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    console.debug( "focus" );
+
+                    $( this ).addClass( "ui-state-focus" );
+                },
+                "blur.maccordion"      : function() {
+                    if ( options.disabled ) {
+                        return;
+                    }
+                    $( this ).removeClass( "ui-state-focus" );
+
+                    console.debug( "blur" );
+                },
+                "keydown.maccordion"   : $.proxy( this, "_keydown" )
+            } );
+
         },
 
         _setZeroTabindex: function( $header ) {

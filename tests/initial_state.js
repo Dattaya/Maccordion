@@ -10,14 +10,14 @@
             ok( this.$div.is( ".dattaya-maccordion.ui-widget.ui-helper-reset" ) );
 
             // headers
-            ok( this.$headers.are( ".dattaya-maccordion-header.ui-helper-reset.ui-state-default" ) );
+            equal( this.$div.find( ".dattaya-maccordion-header.ui-helper-reset.ui-state-default" ).size(), 3 );
 
             ok( this.$headers.eq( 0 ).is( ".dattaya-maccordion-header-active.ui-corner-top.ui-state-active" ) );
 
             ok( this.$div.filter( ":gt(0)" ).are( ".ui-corner-all" ) );
 
             // content panes
-            ok( this.$headers.next().are( ".dattaya-maccordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom" ) );
+            equal( this.$div.find( ".dattaya-maccordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom" ).size(), 3 );
 
             ok( this.$headers.eq( 0 ).next().is( ".dattaya-maccordion-content-active" ) );
 

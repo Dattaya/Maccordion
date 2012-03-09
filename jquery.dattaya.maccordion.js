@@ -70,15 +70,13 @@
         },
 
         _create: function() {
-            var self = this,
-                options = self.options;
+            var options = this.options;
 
-            self.element
-                .addClass( "dattaya-maccordion ui-widget ui-helper-reset" );
+            this._setupElement();
 
-            self.$headers = self.element.find( options.header );
+            this.$headers = this.element.find( options.header );
 
-            this._setupTabs( self.$headers );
+            this._setupTabs( this.$headers );
 
             // HELPERS {
             $.fn.maccordionToggleAttributes = function( attributes ) {
@@ -91,17 +89,11 @@
             };
             // }
 
-            // ARIA {
-            self.element
-                .attr( "aria-multiselectable", true )
-                .attr( "role", "tablist" );
+            this._activate( options.active );
 
-            self._activate( options.active );
+            this._setZeroTabindex( this.$headers.eq( 0 ) );
 
-            self._setZeroTabindex( this.$headers.eq( 0 ) );
-            // }
-
-            self._heightStyle();
+            this._heightStyle();
         },
 
         destroy: function() {
@@ -195,7 +187,6 @@
                     } )
                     .height( maxHeight );
             }
-
         },
 
         refresh: function() {
@@ -205,7 +196,6 @@
 
             this._setupTabs( this.element.find( options.header ).not( this.$headers ) );
             this.$headers = this.element.find( options.header );
-
         },
 
         _setOption: function( key, value ) {
@@ -251,6 +241,15 @@
                 $headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
                     $.proxy( self, "_eventHandler" ) );
             }
+        },
+
+        _setupElement: function() {
+            this.element
+                .addClass( "dattaya-maccordion ui-widget ui-helper-reset" );
+
+            this.element
+                .attr( "aria-multiselectable", true )
+                .attr( "role", "tablist" );
         },
 
         _setupTabs: function( $headers ) {

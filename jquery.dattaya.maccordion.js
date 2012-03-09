@@ -101,7 +101,7 @@
             self._setZeroTabindex( this.$headers.eq( 0 ) );
             // }
 
-            self.refresh();
+            self._heightStyle();
         },
 
         destroy: function() {
@@ -185,11 +185,9 @@
             event.preventDefault();
         },
 
-        refresh: function() {
-            var options = this.options;
+        _heightStyle: function() {
 
-            //TODO "Extract method"
-            if ( options.heightStyle === "auto" ) {
+            if ( this.options.heightStyle === "auto" ) {
                 var maxHeight = 0;
                 this.$headers.next()
                     .each( function() {
@@ -197,6 +195,13 @@
                     } )
                     .height( maxHeight );
             }
+
+        },
+
+        refresh: function() {
+            var options = this.options;
+
+            this._heightStyle();
 
             this._setupTabs( this.element.find( options.header ).not( this.$headers ) );
             this.$headers = this.element.find( options.header );

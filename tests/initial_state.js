@@ -29,6 +29,22 @@
         } );
     } );
 
+    test( "icons", function() {
+
+        var $icons = this.$headers.children( "span:first-child" );
+
+        equal( $icons.size(), 3 );
+
+        ok( $icons.are( ".dattaya-maccordion-header-icon.ui-icon" ) );
+
+        equal( $icons.filter( ".ui-icon-triangle-1-e:not(.ui-icon-triangle-1-s)" ).size(), 2 );
+
+        $icons.eq(0).is( ".ui-icon-triangle-1-s:not(.ui-icon-triangle-1-e)" );
+
+        ok( this.$div.is( ".dattaya-maccordion-icons" ) );
+
+    } );
+
     test( "accessibility", function() {
 
         // main element

@@ -20,25 +20,19 @@
         var $newTab = $( "<h3><a href=\"#\">Header</a></h3><div><p>Content</p></div>" ).appendTo( this.$div );
         this.$div.maccordion( "refresh" );
         this.$header = $newTab.eq( 0 );
+        this.$prevHeader = this.$div.find( ".dattaya-maccordion-header" ).eq( -2 );
     } ) );
 
     test( "refresh: initial state", function() {
 
-        // headers
-        equal( this.$div.find( ".dattaya-maccordion-header.ui-helper-reset.ui-state-default.ui-corner-all" ).size(), 4 );
+        domElEqual( this.$header, this.$prevHeader,
+            "new header should have the same attributes and childs as previous one",
+            [ "aria-selected", "aria-expanded", "role" ]
+        );
 
-        ok( this.$header.is( "[role=tab][tabindex=-1][aria-selected=false][aria-expanded=false]" ) );
-
-        // content panes
-        equal( this.$div.find( ".dattaya-maccordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom" ).size(),
-            4 );
-
-        ok( this.$header.next().is( "[role=tabpanel]" ) );
-
-
-        deepEqual( this.$div.find( ".dattaya-maccordion-header" ).next().get(),
-            this.$div.find( ".dattaya-maccordion-content" ).get(),
-            "content panels come immidiately after headers"
+        domElEqual( this.$header.next(), this.$prevHeader.next(),
+            "new header should have the same attributes and childs as previous one",
+            [ "role" ]
         );
 
     } );
@@ -58,14 +52,14 @@
     } );
 
     test( "refresh: other events", function() {
-        this.$header.mouseenter().focus();
+            this.$header.mouseenter().focus();
 
-        ok( this.$header.is( ".ui-state-hover.ui-state-focus" ) );
+            ok( this.$header.is( ".ui-state-hover.ui-state-focus" ) );
 
-        this.$header.mouseleave().blur();
+            this.$header.mouseleave().blur();
 
-        ok( this.$header.is( ":not(.ui-state-hover.ui-state-focus)" ) );
+            ok( this.$header.is( ":not(.ui-state-hover.ui-state-focus)" ) );
 
-    } );
+        } );
 
 })( jQuery );

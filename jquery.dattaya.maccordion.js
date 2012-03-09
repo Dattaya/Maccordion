@@ -13,7 +13,11 @@
             speed      : "normal",
             disabled   : false,
             heightStyle: false,
-            animated   : true
+            animated   : true,
+            icons: {
+                activeHeader: "ui-icon-triangle-1-s",
+                header      : "ui-icon-triangle-1-e"
+            }
         },
 
         /**
@@ -22,18 +26,22 @@
          */
         _toggle: function( $headers ) {
 
+            var options = this.options;
+
             if ( $headers.length == 0 )
                 return;
 
             console.debug( "_toggle" );
 
             $headers
-                .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" );
+                .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" )
+                .find( ".dattaya-maccordion-header-icon" )
+                    .toggleClass( options.icons.header + " " + options.icons.activeHeader );
 
             // ARIA
             $headers.maccordionToggleAttributes( "aria-selected aria-expanded" );
 
-            if ( this.options.animated ) {
+            if ( options.animated ) {
                 $headers.next()
                     .slideToggle( this.options.speed, this.options.easing );
             } else {
@@ -110,6 +118,8 @@
                 "ui-maccordion-disabled ui-state-disabled ui-state-focus ui-state-hover" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
 
+            this._destroyIcons( this.$headers );
+
             // clean up content
             this.$headers.next()
                 .css( "display", "" )
@@ -178,6 +188,7 @@
         refresh: function() {
             var options = this.options;
 
+            //TODO "Extract method"
             if ( options.heightStyle === "auto" ) {
                 var maxHeight = 0;
                 this.$headers.next()
@@ -221,6 +232,10 @@
                 case "active":
                     this._activate( value );
                     break;
+
+                case "icons":
+                    this._destroyIcons( this.$headers );
+                    this._setupIcons( this.$headers );
             }
         },
 
@@ -289,6 +304,21 @@
                 "keydown.maccordion"   : $.proxy( this, "_keydown" )
             } );
 
+            this._setupIcons( $headers );
+        },
+
+        _setupIcons: function( $headers ) {
+            if ( this.options.icons ) {
+                $( "<span>" )
+                    .addClass( "dattaya-maccordion-header-icon ui-icon " + this.options.icons.header )
+                    .prependTo( $headers );
+                this.element.addClass( "dattaya-maccordion-icons" );
+            }
+        },
+
+        _destroyIcons: function( $headers ) {
+            this.element.removeClass( "dattaya-maccordion-icons" );
+            $headers.children( ".dattaya-maccordion-header-icon" ).remove();
         },
 
         _setZeroTabindex: function( $header ) {

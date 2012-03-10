@@ -119,7 +119,7 @@
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
 
             this._destroyIcons();
-            this._setupCleanupAnchors( this.$headers );
+            this._cleanupAnchors();
         },
 
         _cleanupContents: function() {
@@ -302,7 +302,7 @@
 
             this._setupEvents( this.options.event, $headers );
 
-            this._setupCleanupAnchors( $headers );
+            this._setupAnchors( $headers );
 
             this._setupIcons( $headers );
         },
@@ -325,8 +325,16 @@
             }
         },
 
-        _setupCleanupAnchors: function( $headers ) {
-            $headers.children( "a:first-child" ).toggleClass( "dattaya-maccordion-heading" );
+        _setupAnchors: function( $headers ) {
+            $headers.children( "a:first-child" )
+                .addClass( "dattaya-maccordion-heading" )
+                .attr( "tabindex", -1 );
+        },
+
+        _cleanupAnchors: function() {
+            this.$headers.children( "a:first-child" )
+                .removeClass( "dattaya-maccordion-heading" )
+                .removeAttr( "tabindex" );
         },
 
         _destroyIcons: function() {

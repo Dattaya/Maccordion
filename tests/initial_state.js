@@ -48,6 +48,8 @@
 
         ok( this.$headers.children( "span+a" ).are( ".dattaya-maccordion-heading" ) );
 
+        ok( this.$headers.children( "span+a" ).are( "[tabindex=-1]" ) );
+
     } );
 
     test( "accessibility", function() {

@@ -25,13 +25,10 @@
          * @param {jQuery} $headers
          */
         _toggle: function( $headers ) {
-
             var options = this.options;
 
             if ( $headers.length == 0 )
                 return;
-
-            console.debug( "_toggle" );
 
             $headers
                 .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" )
@@ -61,8 +58,6 @@
             if ( options.disabled ) {
                 return;
             }
-
-            console.debug( event.type === "keypress" ? "click" : event.type );
 
             this._toggle( $( event.currentTarget ) );
 
@@ -106,35 +101,41 @@
 
             this._cleanupHeaders();
 
-            this._destroyIcons( this.$headers );
-
             this._cleanupContents();
 
             return $.Widget.prototype.destroy.call( this );
         },
 
         _cleanupHeaders: function() {
+
             this.$headers
                 .off( ".maccordion" )
                 .removeClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
                 "ui-corner-all ui-state-active ui-corner-top dattaya-maccordion-header-active " +
                 "ui-maccordion-disabled ui-state-disabled ui-state-focus ui-state-hover" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
+
+            this._destroyIcons( this.$headers );
+
         },
 
         _cleanupContents: function() {
+
             this.$headers.next()
                 .css( "display", "" )
                 .removeClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom dattaya-maccordion-content-active " +
                 "ui-maccordion-disabled ui-state-disabled" )
                 .removeAttr( "role" );
+
         },
 
         _cleanupElement: function() {
+
             this.element
                 .removeClass( "dattaya-maccordion ui-widget ui-helper-reset" )
                 .removeAttr( "aria-multiselectable role" );
+
         },
 
         /**
@@ -142,8 +143,6 @@
          * @param {Number[]|String|Boolean|jQuery} active
          */
         _activate: function( active ) {
-
-            console.debug( "_activate" );
 
             this._toggle( this._transformActiveToElement( active ) );
         },
@@ -162,8 +161,6 @@
                 length = this.$headers.length,
                 currentIndex = this.$headers.index( event.currentTarget ),
                 toFocus = false;
-
-            console.debug( event.type );
 
             switch ( event.keyCode ) {
                 case keyCode.RIGHT:
@@ -218,8 +215,6 @@
 //                return;
 //            }
 
-            console.debug( "_setOption" );
-
             if ( key === "event" ) {
                 if ( options.event ) {
                     this.$headers.off( options.event.split( " " ).join( ".maccordion " ) + ".maccordion" );
@@ -256,71 +251,81 @@
         },
 
         _setupElement: function() {
+
             this.element
                 .addClass( "dattaya-maccordion ui-widget ui-helper-reset" );
 
             this.element
                 .attr( "aria-multiselectable", true )
                 .attr( "role", "tablist" );
+
         },
 
         _setupTabs: function( $headers ) {
+
+            this._setupHeaders( $headers );
+
+            this._setupContents( $headers );
+
+        },
+
+        _setupHeaders: function( $headers ) {
             var options = this.options;
 
-            $headers.addClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
-                "ui-corner-all" );
+            $headers
+                .addClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
+                                "ui-corner-all" )
+                .attr( {
+                    role           : "tab",
+                    tabindex       : -1,
+                    "aria-selected": false,
+                    "aria-expanded": false
+                } )
+                .on( {
+                    "mouseenter.maccordion": function() {
+                        if ( options.disabled ) {
+                            return;
+                        }
+                        $( this ).addClass( "ui-state-hover" );
+                    },
+                    "mouseleave.maccordion": function() {
+                        if ( options.disabled ) {
+                            return;
+                        }
+                        $( this ).removeClass( "ui-state-hover" );
+                    },
+                    "focus.maccordion"     : function() {
+                        if ( options.disabled ) {
+                            return;
+                        }
+
+                        $( this ).addClass( "ui-state-focus" );
+                    },
+                    "blur.maccordion"      : function() {
+                        if ( options.disabled ) {
+                            return;
+                        }
+                        $( this ).removeClass( "ui-state-focus" );
+
+                    },
+                    "keydown.maccordion"   : $.proxy( this, "_keydown" )
+            } );
+
+            this._setupEvents( this.options.event, $headers );
+
+            this._setupIcons( $headers );
+
+        },
+
+        _setupContents: function( $headers ) {
+
+            $headers.next()
+                .attr( "role", "tabpanel" );
 
             $headers.next()
                 .addClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom" );
 
-            this._setupEvents( options.event, $headers );
-
-            $headers
-                .attr( {
-                role           : "tab",
-                tabindex       : -1,
-                "aria-selected": false,
-                "aria-expanded": false
-            } );
-
-            $headers.next()
-                .attr( "role", "tabpanel" );
-
-            $headers
-                .on( {
-                "mouseenter.maccordion": function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    $( this ).addClass( "ui-state-hover" );
-                },
-                "mouseleave.maccordion": function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    $( this ).removeClass( "ui-state-hover" );
-                },
-                "focus.maccordion"     : function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    console.debug( "focus" );
-
-                    $( this ).addClass( "ui-state-focus" );
-                },
-                "blur.maccordion"      : function() {
-                    if ( options.disabled ) {
-                        return;
-                    }
-                    $( this ).removeClass( "ui-state-focus" );
-
-                    console.debug( "blur" );
-                },
-                "keydown.maccordion"   : $.proxy( this, "_keydown" )
-            } );
-
-            this._setupIcons( $headers );
         },
 
         _setupIcons: function( $headers ) {

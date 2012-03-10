@@ -78,16 +78,7 @@
 
             this._setupTabs( this.$headers );
 
-            // HELPERS {
-            $.fn.maccordionToggleAttributes = function( attributes ) {
-                attributes = $.trim( attributes ).split( " " );
-                this.each( function( index, el ) {
-                    $.each( attributes, function( index, attr ) {
-                        $( el ).attr( attr, $( el ).attr( attr ) != "true" );
-                    } );
-                } );
-            };
-            // }
+            this._setupHelpers();
 
             this._activate( options.active );
 
@@ -96,33 +87,54 @@
             this._heightStyle();
         },
 
-        destroy: function() {
-            // clean up main element
-            this.element
-                .removeClass( "dattaya-maccordion ui-widget ui-helper-reset" )
-                .removeAttr( "aria-multiselectable role" );
+        _setupHelpers: function() {
+            if ( !$.fn.maccordionToggleAttributes ) {
+                $.fn.maccordionToggleAttributes = function( attributes ) {
+                    attributes = $.trim( attributes ).split( " " );
+                    this.each( function( index, el ) {
+                        $.each( attributes, function( index, attr ) {
+                            $( el ).attr( attr, $( el ).attr( attr ) != "true" );
+                        } );
+                    } );
+                };
+            }
+        },
 
-            // clean up headers
+        destroy: function() {
+
+            this._cleanupElement();
+
+            this._cleanupHeaders();
+
+            this._destroyIcons( this.$headers );
+
+            this._cleanupContents();
+
+            return $.Widget.prototype.destroy.call( this );
+        },
+
+        _cleanupHeaders: function() {
             this.$headers
                 .off( ".maccordion" )
                 .removeClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
                 "ui-corner-all ui-state-active ui-corner-top dattaya-maccordion-header-active " +
                 "ui-maccordion-disabled ui-state-disabled ui-state-focus ui-state-hover" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
+        },
 
-            this._destroyIcons( this.$headers );
-
-            // clean up content
+        _cleanupContents: function() {
             this.$headers.next()
                 .css( "display", "" )
                 .removeClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom dattaya-maccordion-content-active " +
                 "ui-maccordion-disabled ui-state-disabled" )
                 .removeAttr( "role" );
+        },
 
-            console.debug( "destroy" );
-
-            return $.Widget.prototype.destroy.call( this );
+        _cleanupElement: function() {
+            this.element
+                .removeClass( "dattaya-maccordion ui-widget ui-helper-reset" )
+                .removeAttr( "aria-multiselectable role" );
         },
 
         /**

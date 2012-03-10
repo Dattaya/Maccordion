@@ -148,7 +148,6 @@
     } );
 
     test( "icons", function() {
-
         this.$div.maccordion( { icons: { activeHeader: "ui-icon-carat-1-s", header: "ui-icon-carat-1-e" } } );
 
         equal( this.$headers.children( ".ui-icon-triangle-1-s, .ui-icon-triangle-1-e" ).size(), 0 );
@@ -161,9 +160,20 @@
 
     } );
 
+    test( "options", function() {
+        this.$div.maccordion( { options: { test: "test" } } );
+
+        deepEqual( this.$div.maccordion( "option", "options" ), { test: "test" } );
+
+        this.$div.maccordion( { options: false } );
+
+        strictEqual( this.$div.maccordion( "option", "options" ), false );
+
+    } );
+
 
 //    test( "heightStyle: #auto", function() {
-
+        //TODO heightStyle - refresh - fix
 //    } );
 
 

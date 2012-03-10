@@ -30,7 +30,6 @@
     } );
 
     test( "icons", function() {
-
         var $icons = this.$headers.children( "span:first-child" );
 
         equal( $icons.size(), 3 );

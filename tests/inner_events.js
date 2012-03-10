@@ -1,5 +1,5 @@
 (function( $ ) {
-    module( "maccordion: triggering events", setupTeardown() );
+    module( "maccordion: inner events", setupTeardown() );
 
     test( "keydown: ENTER", function() {
 

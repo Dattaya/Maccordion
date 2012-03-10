@@ -9,12 +9,16 @@
             active     : 0,
             header     : "> li > :first-child,> :not(li):even",
             event      : "click",
+            effect     : "blind",
+            options    : {
+                direction: "up"
+            },
             easing     : "swing",
             speed      : "normal",
             disabled   : false,
             heightStyle: false,
             animated   : true,
-            icons: {
+            icons      : {
                 activeHeader: "ui-icon-triangle-1-s",
                 header      : "ui-icon-triangle-1-e"
             }
@@ -40,12 +44,14 @@
 
             if ( options.animated ) {
                 $headers.next()
-                    .slideToggle( this.options.speed, this.options.easing );
+                    .toggle( options.effect, this.effOptions, options.speed );
+
             } else {
                 $headers.next().toggle();
             }
 
             $headers.next().toggleClass( "dattaya-maccordion-content-active" );
+
         },
 
         /**
@@ -210,16 +216,10 @@
         _setOption: function( key, value ) {
             var options = this.options;
 
-            //TODO This optimization breaks { active: [array] } behavior. So should probably be deleted.
-//            if ( options[ key ] === value ) {
-//                return;
-//            }
-
             if ( key === "event" ) {
                 if ( options.event ) {
                     this.$headers.off( options.event.split( " " ).join( ".maccordion " ) + ".maccordion" );
                 }
-
                 this._setupEvents( value, this.$headers );
             }
 
@@ -238,15 +238,19 @@
                 case "icons":
                     this._destroyIcons( this.$headers );
                     this._setupIcons( this.$headers );
+                    break;
+
+                case "options":
+                    this.effOptions = $.extend( {}, value, { easing: options.easing } );
+                    break;
             }
         },
 
         _setupEvents: function( event, $headers ) {
-            var self = this;
 
             if ( event ) {
                 $headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
-                    $.proxy( self, "_eventHandler" ) );
+                    $.proxy( this, "_eventHandler" ) );
             }
         },
 
@@ -374,7 +378,6 @@
                     return $( [] );
             }
         }
-
     } );
 
 })( jQuery );

@@ -51,7 +51,6 @@
             }
 
             $headers.next().toggleClass( "dattaya-maccordion-content-active" );
-
         },
 
         /**
@@ -102,7 +101,6 @@
         },
 
         destroy: function() {
-
             this._cleanupElement();
 
             this._cleanupHeaders();
@@ -113,7 +111,6 @@
         },
 
         _cleanupHeaders: function() {
-
             this.$headers
                 .off( ".maccordion" )
                 .removeClass( "dattaya-maccordion-header ui-helper-reset ui-state-default " +
@@ -121,27 +118,23 @@
                 "ui-maccordion-disabled ui-state-disabled ui-state-focus ui-state-hover" )
                 .removeAttr( "role tabindex aria-selected aria-expanded" );
 
-            this._destroyIcons( this.$headers );
-
+            this._destroyIcons();
+            this._setupCleanupAnchors( this.$headers );
         },
 
         _cleanupContents: function() {
-
             this.$headers.next()
                 .css( "display", "" )
                 .removeClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom dattaya-maccordion-content-active " +
                 "ui-maccordion-disabled ui-state-disabled" )
                 .removeAttr( "role" );
-
         },
 
         _cleanupElement: function() {
-
             this.element
                 .removeClass( "dattaya-maccordion ui-widget ui-helper-reset" )
                 .removeAttr( "aria-multiselectable role" );
-
         },
 
         /**
@@ -149,12 +142,10 @@
          * @param {Number[]|String|Boolean|jQuery} active
          */
         _activate: function( active ) {
-
             this._toggle( this._transformActiveToElement( active ) );
         },
 
         _keydown: function( event ) {
-
             if ( this.options.disabled || event.altKey || event.ctrlKey ) {
                 return;
             }
@@ -193,7 +184,6 @@
         },
 
         _heightStyle: function() {
-
             if ( this.options.heightStyle === "auto" ) {
                 var maxHeight = 0;
                 this.$headers.next()
@@ -207,10 +197,10 @@
         refresh: function() {
             var options = this.options;
 
-            this._heightStyle();
-
             this._setupTabs( this.element.find( options.header ).not( this.$headers ) );
             this.$headers = this.element.find( options.header );
+
+            this._heightStyle();
         },
 
         _setOption: function( key, value ) {
@@ -247,7 +237,6 @@
         },
 
         _setupEvents: function( event, $headers ) {
-
             if ( event ) {
                 $headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
                     $.proxy( this, "_eventHandler" ) );
@@ -255,22 +244,18 @@
         },
 
         _setupElement: function() {
-
             this.element
                 .addClass( "dattaya-maccordion ui-widget ui-helper-reset" );
 
             this.element
                 .attr( "aria-multiselectable", true )
                 .attr( "role", "tablist" );
-
         },
 
         _setupTabs: function( $headers ) {
-
             this._setupHeaders( $headers );
 
             this._setupContents( $headers );
-
         },
 
         _setupHeaders: function( $headers ) {
@@ -317,19 +302,18 @@
 
             this._setupEvents( this.options.event, $headers );
 
-            this._setupIcons( $headers );
+            this._setupCleanupAnchors( $headers );
 
+            this._setupIcons( $headers );
         },
 
         _setupContents: function( $headers ) {
-
             $headers.next()
                 .attr( "role", "tabpanel" );
 
             $headers.next()
                 .addClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom" );
-
         },
 
         _setupIcons: function( $headers ) {
@@ -341,13 +325,16 @@
             }
         },
 
-        _destroyIcons: function( $headers ) {
+        _setupCleanupAnchors: function( $headers ) {
+            $headers.children( "a:first-child" ).toggleClass( "dattaya-maccordion-heading" );
+        },
+
+        _destroyIcons: function() {
             this.element.removeClass( "dattaya-maccordion-icons" );
-            $headers.children( ".dattaya-maccordion-header-icon" ).remove();
+            this.$headers.children( ".dattaya-maccordion-header-icon" ).remove();
         },
 
         _setZeroTabindex: function( $header ) {
-
             if ( this.$zeroTabIndex ) {
                 this.$zeroTabIndex.attr( "tabindex", -1 );
             }
@@ -356,7 +343,6 @@
         },
 
         _transformActiveToElement: function( active ) {
-
             if ( active instanceof jQuery ) {
                 return active.filter( ".dattaya-maccordion-header" );
             }

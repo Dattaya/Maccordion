@@ -44,6 +44,12 @@
 
     } );
 
+    test( "anchors", function() {
+
+        ok( this.$headers.children( "span+a" ).are( ".dattaya-maccordion-heading" ) );
+
+    } );
+
     test( "accessibility", function() {
 
         // main element

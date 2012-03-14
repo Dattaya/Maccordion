@@ -16,7 +16,7 @@
             easing     : "swing",
             speed      : "normal",
             disabled   : false,
-            heightStyle: false,
+            heightStyle: "auto",
             animated   : true,
             icons      : {
                 activeHeader: "ui-icon-triangle-1-s",

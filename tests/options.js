@@ -145,6 +145,10 @@
 
         maccordion_state_helper( this.$div, 0, 0, 0 );
 
+        this.$headers.eq(0).trigger( $.Event( "keydown", { keyCode: $.ui.keyCode.ENTER } ) );
+
+        maccordion_state_helper( this.$div, 0, 0, 0 );
+
     } );
 
     test( "icons", function() {
@@ -172,9 +176,6 @@
     } );
 
 
-//    test( "heightStyle: #auto", function() {
-        //TODO heightStyle - refresh - fix
-//    } );
 
 
 

@@ -28,10 +28,11 @@
          *
          * @param {jQuery} $headers
          */
-        _toggle: function( $headers ) {
+        _toggle: function( $headers, event ) {
             var options = this.options;
 
-            if ( $headers.length == 0 )
+            if ( $headers.length == 0 ||
+                ( this._trigger( "beforeActivate", event, { togglable: $headers } ) === false ) )
                 return;
 
             $headers
@@ -64,7 +65,7 @@
                 return;
             }
 
-            this._toggle( $( event.currentTarget ) );
+            this._toggle( $( event.currentTarget ), event );
 
             event.preventDefault();
         },

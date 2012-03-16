@@ -52,14 +52,14 @@
     } );
 
     test( "refresh: other events", function() {
-            this.$header.mouseenter().focus();
+        this.$header.mouseenter().focus();
 
-            ok( this.$header.is( ".ui-state-hover.ui-state-focus" ) );
+        ok( this.$header.is( ".ui-state-hover.ui-state-focus" ) );
 
-            this.$header.mouseleave().blur();
+        this.$header.mouseleave().blur();
 
-            ok( this.$header.is( ":not(.ui-state-hover.ui-state-focus)" ) );
+        ok( this.$header.is( ":not(.ui-state-hover.ui-state-focus)" ) );
 
-        } );
+    } );
 
 })( jQuery );

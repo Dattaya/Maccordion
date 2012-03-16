@@ -1,0 +1,28 @@
+.dattaya-maccordion .dattaya-maccordion-header {
+    cursor: pointer;
+    position: relative;
+    margin-top: 1px;
+    padding: .5em .5em .5em 2.2em;
+    zoom: 1;
+}
+
+.dattaya-maccordion .dattaya-maccordion-header-active {
+    border-bottom: 0 !important;
+}
+
+.dattaya-maccordion .dattaya-maccordion-header .ui-icon {
+    position: absolute;
+    left: .5em;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.dattaya-maccordion .dattaya-maccordion-content {
+    padding: 1em 2.2em;
+    border-top: 0;
+    margin: 0 0 2px;
+    position: relative;
+    overflow: auto;
+    display: none;
+    zoom: 1;
+}

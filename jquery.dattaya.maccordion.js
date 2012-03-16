@@ -17,7 +17,6 @@
             speed      : "normal",
             disabled   : false,
             heightStyle: "auto",
-            animated   : true,
             icons      : {
                 activeHeader: "ui-icon-triangle-1-s",
                 header      : "ui-icon-triangle-1-e"
@@ -41,10 +40,9 @@
                 .find( ".dattaya-maccordion-header-icon" )
                     .toggleClass( options.icons.header + " " + options.icons.activeHeader );
 
-            // ARIA
             $headers.maccordionToggleAttributes( "aria-selected aria-expanded" );
 
-            if ( options.animated ) {
+            if ( options.effect ) {
                 $headers.next()
                     .toggle( options.effect, this.effOptions, options.speed );
 

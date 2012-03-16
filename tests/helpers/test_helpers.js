@@ -9,16 +9,16 @@ function maccordion_state_helper( $el ) {
 }
 
 function setupTeardown( setup, teardown ) {
-    var animated = $.dattaya.maccordion.prototype.options.animated;
+    var effect = $.dattaya.maccordion.prototype.options.effect;
     return {
         setup   : function() {
-            $.dattaya.maccordion.prototype.options.animated = false;
+            $.dattaya.maccordion.prototype.options.effect = false;
             this.$div = $( "#div" ).maccordion();
             setup ? ( $.proxy( setup, this ) )() : '';
 
         },
         teardown: function() {
-            $.dattaya.maccordion.prototype.options.animated = animated;
+            $.dattaya.maccordion.prototype.options.effect = effect;
             teardown ? ( $.proxy( teardown, this ) )() : '';
         }
     };

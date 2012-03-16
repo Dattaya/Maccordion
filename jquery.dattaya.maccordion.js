@@ -29,10 +29,11 @@
          * @param {jQuery} $headers
          */
         _toggle: function( $headers, event ) {
-            var options = this.options;
+            var options = this.options,
+                data = { toggled: $headers };
 
             if ( $headers.length == 0 ||
-                ( this._trigger( "beforeActivate", event, { togglable: $headers } ) === false ) )
+                ( this._trigger( "beforeActivate", event, data ) === false ) )
                 return;
 
             $headers
@@ -52,6 +53,8 @@
             }
 
             $headers.next().toggleClass( "dattaya-maccordion-content-active" );
+
+            this._trigger( "activate", event, data )
         },
 
         /**

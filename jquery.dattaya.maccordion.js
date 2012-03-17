@@ -1,6 +1,13 @@
-/**
- * Work in progress
- * v. 0.0.-1
+/*
+ * jQueryUI Maccordion
+ * (c) Yaroslav Kiliba <om.dattaya@gmail.com>
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * Depends:
+ *	jquery.ui.core.js
+ *	jquery.ui.widget.js
+ *	jquery.ui.effects.core.js
+ *	jquery.ui.effects.*.js
  */
 
 (function( $, undefined ) {

@@ -151,6 +151,9 @@
          * @param {Number[]|String|Boolean|jQuery} active
          */
         _activate: function( active ) {
+            if ( this.options.disabled ) {
+                return;
+            }
             this._toggle( this._transformActiveToElement( active ) );
         },
 

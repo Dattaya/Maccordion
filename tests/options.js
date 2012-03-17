@@ -149,6 +149,10 @@
 
         maccordion_state_helper( this.$div, 0, 0, 0 );
 
+        this.$div.maccordion( { active: 0 } );
+
+        maccordion_state_helper( this.$div, 0, 0, 0 );
+
     } );
 
     test( "icons", function() {

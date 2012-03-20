@@ -57,6 +57,17 @@
 
     } );
 
-    //TODO after activate + animate
+    asyncTest( "activate: during animation", 1, function() {
+        this.$div.maccordion( { effect: "fade", speed: 10 } );
+        this.$div.one( "maccordionactivate", function( event, data ) {
+            setTimeout( function() {
+
+                ok( data.toggled.next().are(":not(:animated)"), "event should be triggered after animation" );
+
+                start();
+            }, 50 );
+        } );
+        this.$headers.click();
+    } );
 
 })( jQuery );

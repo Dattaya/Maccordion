@@ -35,7 +35,8 @@
         _toggle: function( $headers, event ) {
             var $toToggle = $headers.next().not(".ui-effects-wrapper").not(":animated");
             var options = this.options,
-                data = { toggled: $headers = $toToggle.prev() };
+                data = { toggled: $headers = $toToggle.prev() },
+                self = this;
 
             if ( $headers.length == 0 ||
                 ( this._trigger( "beforeActivate", event, data ) === false ) )
@@ -43,9 +44,13 @@
 
             if ( options.effect ) {
                 $toToggle
-                    .toggle( options.effect, this.effOptions, options.speed );
+                    .toggle( options.effect, this.effOptions, options.speed,
+                        function() {
+                            self._trigger( "activate", event, data );
+                        } );
             } else {
                 $toToggle.toggle();
+                this._trigger( "activate", event, data );
             }
 
             $headers
@@ -56,7 +61,7 @@
 
             $toToggle.toggleClass( "dattaya-maccordion-content-active" );
 
-            this._trigger( "activate", event, data )
+
         },
 
         /**

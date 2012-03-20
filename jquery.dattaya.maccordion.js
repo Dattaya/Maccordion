@@ -7,7 +7,7 @@
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  *	jquery.ui.effects.core.js
- *	jquery.ui.effects.*.js
+ *	jquery.ui.effects.blind.js - default effect
  */
 
 (function( $, undefined ) {
@@ -17,9 +17,7 @@
             header     : "> li > :first-child,> :not(li):even",
             event      : "click",
             effect     : "blind",
-            options    : {
-                direction: "up"
-            },
+            options    : {},
             easing     : "swing",
             speed      : "normal",
             disabled   : false,
@@ -35,29 +33,28 @@
          * @param {jQuery} $headers
          */
         _toggle: function( $headers, event ) {
+            var $toToggle = $headers.next().not(".ui-effects-wrapper").not(":animated");
             var options = this.options,
-                data = { toggled: $headers };
+                data = { toggled: $headers = $toToggle.prev() };
 
             if ( $headers.length == 0 ||
                 ( this._trigger( "beforeActivate", event, data ) === false ) )
                 return;
 
+            if ( options.effect ) {
+                $toToggle
+                    .toggle( options.effect, this.effOptions, options.speed );
+            } else {
+                $toToggle.toggle();
+            }
+
             $headers
                 .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" )
+                .maccordionToggleAttributes( "aria-selected aria-expanded" )
                 .find( ".dattaya-maccordion-header-icon" )
                     .toggleClass( options.icons.header + " " + options.icons.activeHeader );
 
-            $headers.maccordionToggleAttributes( "aria-selected aria-expanded" );
-
-            if ( options.effect ) {
-                $headers.next()
-                    .toggle( options.effect, this.effOptions, options.speed );
-
-            } else {
-                $headers.next().toggle();
-            }
-
-            $headers.next().toggleClass( "dattaya-maccordion-content-active" );
+            $toToggle.toggleClass( "dattaya-maccordion-content-active" );
 
             this._trigger( "activate", event, data )
         },
@@ -105,6 +102,7 @@
                             $( el ).attr( attr, $( el ).attr( attr ) != "true" );
                         } );
                     } );
+                    return this;
                 };
             }
         },

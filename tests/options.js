@@ -179,4 +179,49 @@
 
     } );
 
+    test( "effect", function() {
+        this.$div.maccordion( { effect: "blind" } );
+        var that = this;
+        this.$div.one( "maccordionactivate", function( event, data ) {
+
+            ok( data.toggled.next().are( ":animated" ) );
+
+            deepEqual( data.toggled.get(), that.$headers.get() );
+
+        } );
+        this.$div.maccordion( { active: [ 0, 1, 2 ] } );
+    } );
+
+    test( "effect: with wrapper", function() {
+        this.$div.maccordion( { effect: "blind" } );
+        var $header = this.$headers.eq( 0 );
+        $header.click();
+        this.$div.one( "maccordionactivate", function() {
+
+            ok( false, "in current realization animated tab is skipped" );
+
+        } );
+        $header.click();
+        this.$div.maccordion( { active: 0 } );
+
+        ok( true ); // QUnit - Expected at least one assertion
+
+    } );
+
+    test( "effect: without wrapper", function() {
+        this.$div.maccordion( { effect: "fade" } );
+        var $header = this.$headers.eq( 0 );
+        $header.click();
+        this.$div.one( "maccordionactivate", function() {
+
+            ok( false, "in current realization if tab is animated click, activate are skipped" );
+
+        } );
+        $header.click();
+        this.$div.maccordion( { active: 0 } );
+
+        ok( true ); // QUnit - Expected at least one assertion
+
+    } );
+
 })( jQuery );

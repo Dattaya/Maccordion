@@ -57,4 +57,6 @@
 
     } );
 
+    //TODO after activate + animate
+
 })( jQuery );

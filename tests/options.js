@@ -186,7 +186,13 @@
 
             ok( data.toggled.next().are( ":animated" ) );
 
-            deepEqual( data.toggled.get(), that.$headers.get() );
+            deepEqual( data.toggled.get(), [ that.$headers.get(0), that.$headers.get(1) ] );
+
+        } );
+        this.$div.maccordion( { active: [ 0, 1 ] } );
+        this.$div.one( "maccordionactivate", function( event, data ) {
+
+            deepEqual( data.toggled.get(), [ that.$headers.get(2) ], "in current realization all tabs are being animated are not processing in _toggle" );
 
         } );
         this.$div.maccordion( { active: [ 0, 1, 2 ] } );
@@ -198,7 +204,7 @@
         $header.click();
         this.$div.one( "maccordionactivate", function() {
 
-            ok( false, "in current realization animated tab is skipped" );
+            ok( false, "in current realization if tab was animated, _toggle is skipped" );
 
         } );
         $header.click();
@@ -214,7 +220,7 @@
         $header.click();
         this.$div.one( "maccordionactivate", function() {
 
-            ok( false, "in current realization if tab is animated click, activate are skipped" );
+            ok( false, "in current realization if tab was animated, _toggle is skipped" );
 
         } );
         $header.click();
@@ -223,5 +229,7 @@
         ok( true ); // QUnit - Expected at least one assertion
 
     } );
+
+
 
 })( jQuery );

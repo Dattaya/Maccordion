@@ -60,8 +60,6 @@
                     .toggleClass( options.icons.header + " " + options.icons.activeHeader );
 
             $toToggle.toggleClass( "dattaya-maccordion-content-active" );
-
-
         },
 
         /**

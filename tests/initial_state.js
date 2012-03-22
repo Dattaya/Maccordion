@@ -68,4 +68,26 @@
 
     } );
 
+    test( "options", function() {
+        this.$div.maccordion( "option", "effect", "blind" );
+        var options = {
+            active     : 0,
+            header     : "> li > :first-child,> :not(li):even",
+            event      : "click",
+            effect     : "blind",
+            options    : { easing: "swing" },
+            easing     : "swing",
+            speed      : "normal",
+            disabled   : false,
+            heightStyle: "auto",
+            icons      : {
+                activeHeader: "ui-icon-triangle-1-s",
+                header      : "ui-icon-triangle-1-e"
+            }
+        };
+
+        deepEqual( this.$div.maccordion( "option" ), options );
+
+    } );
+
 })( jQuery );

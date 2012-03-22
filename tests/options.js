@@ -169,13 +169,14 @@
     } );
 
     test( "options", function() {
-        this.$div.maccordion( { options: { test: "test" } } );
-
-        deepEqual( this.$div.maccordion( "option", "options" ), { test: "test" } );
-
         this.$div.maccordion( { options: false } );
 
-        strictEqual( this.$div.maccordion( "option", "options" ), false );
+        deepEqual( this.$div.maccordion( "option", "options" ), { easing: "swing" } );
+
+        this.$div.maccordion( "destroy" );
+        this.$div.maccordion( { options: { test: "test" } } );
+
+        deepEqual( this.$div.maccordion( "option", "options" ), { test: "test", easing: "swing" } );
 
     } );
 

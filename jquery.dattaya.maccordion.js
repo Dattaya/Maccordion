@@ -44,7 +44,7 @@
 
             if ( options.effect ) {
                 $toToggle
-                    .toggle( options.effect, this.effOptions, options.speed,
+                    .toggle( options.effect, options.options, options.speed,
                         function() {
                             self._trigger( "activate", event, data );
                         } );
@@ -80,6 +80,8 @@
 
         _create: function() {
             var options = this.options;
+
+            this._setOption( "options", options.options );
 
             this._setupElement();
 
@@ -239,12 +241,12 @@
                     break;
 
                 case "icons":
-                    this._destroyIcons( this.$headers );
+                    this._destroyIcons();
                     this._setupIcons( this.$headers );
                     break;
 
                 case "options":
-                    this.effOptions = $.extend( {}, value, { easing: options.easing } );
+                    options.options = $.extend( {}, value, { easing: options.easing } );
                     break;
             }
         },

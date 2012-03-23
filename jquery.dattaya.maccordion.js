@@ -6,6 +6,7 @@
  * Depends:
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
+ *  These are required if "effect" option is not false
  *	jquery.ui.effects.core.js
  *	jquery.ui.effects.blind.js - default effect
  */

@@ -92,11 +92,11 @@
 
             this._setupHelpers();
 
-            this._activate( options.active );
-
             this._setZeroTabindex( this.$headers.eq( 0 ) );
 
             this._heightStyle();
+
+            this._activate( options.active );
         },
 
         _setupHelpers: function() {

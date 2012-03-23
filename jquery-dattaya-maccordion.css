@@ -10,6 +10,10 @@
     border-bottom: 0 !important;
 }
 
+.dattaya-maccordion .dattaya-maccordion-heading {
+    outline: none;
+}
+
 .dattaya-maccordion .dattaya-maccordion-header .ui-icon {
     position: absolute;
     left: .5em;

@@ -156,11 +156,14 @@
     } );
 
     test( "icons", function() {
+        this.$div.maccordion( { active: 0 } );
         this.$div.maccordion( { icons: { activeHeader: "ui-icon-carat-1-s", header: "ui-icon-carat-1-e" } } );
 
         equal( this.$headers.children( ".ui-icon-triangle-1-s, .ui-icon-triangle-1-e" ).size(), 0 );
 
-        equal( this.$headers.children( ".ui-icon-carat-1-s, .ui-icon-carat-1-e" ).size(), 3 );
+        equal( this.$headers.children( ".ui-icon-carat-1-s" ).size(), 1 );
+
+        equal( this.$headers.children( ".ui-icon-carat-1-e" ).size(), 2 );
 
         this.$div.maccordion( { icons: false } );
 

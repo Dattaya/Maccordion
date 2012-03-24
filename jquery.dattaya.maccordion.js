@@ -333,10 +333,18 @@
         },
 
         _setupIcons: function( $headers ) {
+
             if ( this.options.icons ) {
                 $( "<span>" )
                     .addClass( "dattaya-maccordion-header-icon ui-icon " + this.options.icons.header )
                     .prependTo( $headers );
+
+                this.$headers
+                    .filter( ".dattaya-maccordion-header-active" )
+                    .children(".dattaya-maccordion-header-icon")
+                        .removeClass(this.options.icons.header)
+                        .addClass(this.options.icons.activeHeader);
+
                 this.element.addClass( "dattaya-maccordion-icons" );
             }
         },

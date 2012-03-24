@@ -136,7 +136,10 @@
         },
 
         _cleanupContents: function() {
+            this.$headers.next().filter( ".ui-effects-wrapper" ).children().unwrap();
+
             this.$headers.next()
+                .stop( true, true )
                 .css( "display", "" )
                 .removeClass( "dattaya-maccordion-content ui-helper-reset ui-widget-content " +
                 "ui-corner-bottom dattaya-maccordion-content-active " +
@@ -341,9 +344,9 @@
 
                 this.$headers
                     .filter( ".dattaya-maccordion-header-active" )
-                    .children(".dattaya-maccordion-header-icon")
-                        .removeClass(this.options.icons.header)
-                        .addClass(this.options.icons.activeHeader);
+                    .children( ".dattaya-maccordion-header-icon" )
+                        .removeClass( this.options.icons.header )
+                        .addClass( this.options.icons.activeHeader );
 
                 this.element.addClass( "dattaya-maccordion-icons" );
             }

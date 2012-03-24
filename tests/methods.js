@@ -4,7 +4,7 @@
     test( "destroy", function() {
 
         domEqual( "#div", function() {
-            var $div = $( "#div" ).maccordion( { effect: false } );
+            var $div = $( "#div" ).maccordion();
             var $header = $div.find( ".dattaya-maccordion-header" ).eq( 1 );
             $header.click().mouseenter().keydown( $.Event( "keydown", { keyCode: $.ui.keyCode.DOWN } ) );
 

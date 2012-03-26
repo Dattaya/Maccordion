@@ -36,7 +36,6 @@
 
         ok( this.$headers.next().are( ":hidden" ) );
 
-        //TODO Test animated
     } );
 
     test( "active: #false", function() {

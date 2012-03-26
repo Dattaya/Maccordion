@@ -2,8 +2,14 @@
 
 ## What is Maccordion?
 
-Maccordion is similar to [jQuery UI Accordion](http://jqueryui.com/demos/accordion/) but allows
+Maccordion is jQueryUI plugin, similar to [jQuery UI Accordion](http://jqueryui.com/demos/accordion/) but allows
 more than one content panel to be opened at the same time.
+
+### Dependencies
+
+* UI Core
+* UI Widget
+* UI Effects Core + UI Effects Blind if "effect" option is used.
 
 ## Options
 ### disabled
@@ -83,3 +89,150 @@ Effect related. Name of a function to perform easing of the animation. ([Easing 
 
 Duration of the effect.
 
+### heightStyle
+**string *heightStyle* : auto**
+
+**auto** 
+If set, the highest content part is used as height reference for all other parts. 
+
+### event
+**string *event* : click** ([example](http://jsfiddle.net/Dattaya/CL7Mm/)) 
+
+Specifies the event used to toggle a maccordion tab.
+
+```js
+$( ".maccordion" ).maccordion( "option", "event", "mouseenter click" );
+```
+
+### header
+**string *header* : "> li > :first-child,> :not(li):even"**
+
+Selector for the header element.
+
+### icons 
+**object *icons* : { activeHeader: "ui-icon-triangle-1-s", header: "ui-icon-triangle-1-e" }** 
+([example](http://jsfiddle.net/Dattaya/NwJe8/)) 
+
+Icons to use for headers. ([jQueryUI icons](http://jqueryui.com/themeroller/#icons)) 
+
+```js
+$( ".maccordion" ).maccordion( {
+    icons: {
+        activeHeader: "ui-icon-minus",
+        header      : "ui-icon-plus"
+    } 
+} );
+```
+
+## Events
+### create
+
+This event is triggered when a maccordion is created.
+
+```js
+$( ".maccordion" ).maccordion({
+    create: function(event) { ... }
+});
+```
+
+or
+
+```js
+$( ".maccordion" ).bind("maccordioncreate": function(event) { 
+    ... 
+});
+```
+
+### beforeActivate
+
+Triggered when the maccordion is about to change. 
+
+```js
+$( ".maccordion" ).bind("maccordionbeforeActivate": function(event, data) { 
+    data.toggled // headers of the content panels that are going to be toggled.
+});
+```
+
+### activate
+
+Triggered when the maccordion has been changed.
+
+```js
+$( ".maccordion" ).bind("maccordionbeforeActivate": function(event, data) { 
+    data.toggled // headers of the content panels that have been toggled.
+});
+```
+
+## Methods
+
+### destroy
+
+Removes the maccordion functionality completely. This will return the element back to its pre-init state.
+
+### disable
+
+Disables the maccordion.
+
+### enable
+
+Enables the maccordion.
+
+### option
+
+Gets or sets any maccordion option. If no value is specified, will act as a getter.
+
+
+### widget
+
+Returns the .dattaya-maccordion element.
+
+### refresh
+
+Recomputes heights of tabs, adds/removes tabs.
+
+Adding a tab dynamically ([playground](http://jsfiddle.net/Dattaya/pMM8T/)):
+
+```js
+$( ".maccordion" ).maccordion()
+    .append( "<h3><a href=\"#\">Fourth header</a></h3><div>Fourth content</div>" )
+    .maccordion( "refresh" );
+```
+
+Removing a tab dynamically ([playground](http://jsfiddle.net/Dattaya/rPbUL/)):
+
+```js
+$( ".maccordion" ).maccordion()
+    .children( ":first" )
+        .next()
+        .andSelf()
+            .remove();
+
+$( ".maccordion" ).maccordion( "refresh" );
+
+```
+
+## Theming
+
+Maccordion uses jQuery UI CSS Framework. Use [ThemeRoller](http://jqueryui.com/themeroller/) tool to create and download custom themes that are easy to build and maintain. 
+
+If a deeper level of customization is needed, there are widget-specific classes that can be modified (all classes bellow):  
+
+```html
+<div class="dattaya-maccordion dattaya-maccordion-icons">
+
+    <!--Opened tab-->
+    <h3 class="dattaya-maccordion-header dattaya-maccordion-header-active">
+        <span class="dattaya-maccordion-header-icon"></span>
+        <a href="#" class="dattaya-maccordion-heading">Header</a>
+    </h3>
+    <div class="dattaya-maccordion-content dattaya-maccordion-content-active">Content</div>
+
+    <!--Closed tab-->
+    <h3 class="dattaya-maccordion-header">
+        <span class="dattaya-maccordion-header-icon"></span>
+        <a href="#" class="dattaya-maccordion-heading">Header</a>
+    </h3>
+    <div class="dattaya-maccordion-content">Content</div>
+
+</div>
+```

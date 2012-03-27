@@ -29,19 +29,23 @@
             }
         },
 
-        /**
-         *
-         * @param {jQuery} $headers
-         */
         _toggle: function( $headers, event ) {
             var $toToggle = $headers.next().not(".ui-effects-wrapper").not(":animated");
             var options = this.options,
                 data = { toggled: $headers = $toToggle.prev() },
                 self = this;
 
-            if ( $headers.length == 0 ||
+            if ( $headers.length === 0 ||
                 ( this._trigger( "beforeActivate", event, data ) === false ) )
                 return;
+
+            $headers
+                .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" )
+                .maccordionToggleAttributes( "aria-selected aria-expanded" )
+                .find( ".dattaya-maccordion-header-icon" )
+                    .toggleClass( options.icons.header + " " + options.icons.activeHeader );
+
+            $toToggle.toggleClass( "dattaya-maccordion-content-active" );
 
             if ( options.effect ) {
                 $toToggle
@@ -53,20 +57,8 @@
                 $toToggle.toggle();
                 this._trigger( "activate", event, data );
             }
-
-            $headers
-                .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" )
-                .maccordionToggleAttributes( "aria-selected aria-expanded" )
-                .find( ".dattaya-maccordion-header-icon" )
-                    .toggleClass( options.icons.header + " " + options.icons.activeHeader );
-
-            $toToggle.toggleClass( "dattaya-maccordion-content-active" );
         },
 
-        /**
-         *
-         * @param {Object} event
-         */
         _eventHandler: function( event ) {
             var options = this.options;
 
@@ -153,10 +145,6 @@
                 .removeAttr( "aria-multiselectable role" );
         },
 
-        /**
-         *
-         * @param {Number[]|String|Boolean|jQuery} active
-         */
         _activate: function( active ) {
             if ( this.options.disabled ) {
                 return;
@@ -336,7 +324,6 @@
         },
 
         _setupIcons: function( $headers ) {
-
             if ( this.options.icons ) {
                 $( "<span>" )
                     .addClass( "dattaya-maccordion-header-icon ui-icon " + this.options.icons.header )

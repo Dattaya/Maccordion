@@ -1,0 +1,34 @@
+{
+    "name": "jquery.maccordion",
+    "version": "0.9.1",
+    "title": "jQuery Maccordion",
+    "author": {
+        "name": "Yaroslav Kiliba",
+        "url": "https://github.com/Dattaya"
+    },
+    "licenses": [
+        {
+            "type": "GPLv2",
+            "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+        },
+        {
+            "type": "MIT",
+            "url": "http://copyfree.org/licenses/mit/license.txt"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.7.0",
+        "jquery.ui.core": ">=1.8.0",
+        "jquery.ui.widget": ">=1.8.0"
+    },
+    "description": "Maccordion is jQueryUI plugin, similar to jQuery UI Accordion but allows more than one content panel to be opened at the same time.",
+    "keywords": [
+        "expandable / collapsible content panes"
+    ],
+    "homepage": "https://github.com/Dattaya/Maccordion",
+    "docs": "https://github.com/Dattaya/Maccordion/blob/master/README.md",
+    "files": [
+        "jquery.dattaya.maccordion.js",
+        "jquery-dattaya-maccordion.css"
+    ]
+}

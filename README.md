@@ -36,7 +36,7 @@ $( ".maccordion" ).maccordion( "option", "active", -2  );
 ```
 
 **array**
-Toggles tab. Doesn't support negative numbers.
+Toggles tabs. Doesn't support negative numbers.
 
 ```js
 // opens first and second tabs
@@ -62,6 +62,15 @@ Toggles all tabs.
 
 ```js
 $( ".maccordion" ).maccordion( "option", "active", "toggle" );
+```
+
+**object : jQuery (tab's headers)** ([example](http://jsfiddle.net/Dattaya/46NCz/))
+Toggles tabs.
+
+```js
+$( ".maccordion" ).maccordion( { active: false } );
+
+$( ".maccordion" ).maccordion( "option", "active", $( ".maccordion .dattaya-maccordion-header" ) );
 ```
 
 ### effect

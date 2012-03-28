@@ -158,7 +158,7 @@ $( ".maccordion" ).bind("maccordionbeforeActivate": function(event, data) {
 Triggered when the maccordion has been changed.
 
 ```js
-$( ".maccordion" ).bind("maccordionbeforeActivate": function(event, data) { 
+$( ".maccordion" ).bind("maccordionactivate": function(event, data) {
     data.toggled // headers of the content panels that have been toggled.
 });
 ```

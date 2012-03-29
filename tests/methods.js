@@ -60,4 +60,29 @@
 
     } );
 
+    module( "maccordion: methods", setupTeardown( function() {
+            this.$headers = this.$div.find( ".dattaya-maccordion-header" );
+        }
+    ) );
+
+    test( "refresh: heightStyle: auto", function() {
+        var $contents = this.$headers.next();
+        $contents.each( function( index ) {
+            var previous = $contents.eq( index - 1 ).height();
+
+            ok( $( this ).height() > previous - 2 );
+
+            ok( $( this ).height() < previous + 2 );
+
+        } );
+
+        var $content = this.$headers.eq( 0 ).next();
+        var height = $content.height();
+        $content.append( "<br><br><br>" );
+        this.$div.maccordion( "refresh" );
+
+        ok( $content.height() > height + 5 );
+
+    } );
+
 })( jQuery );

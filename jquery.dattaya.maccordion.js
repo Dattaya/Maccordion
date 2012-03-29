@@ -194,6 +194,7 @@
             if ( this.options.heightStyle === "auto" ) {
                 var maxHeight = 0;
                 this.$headers.next()
+                    .height( "" )
                     .each( function() {
                         maxHeight = Math.max( maxHeight, $( this ).height() );
                     } )

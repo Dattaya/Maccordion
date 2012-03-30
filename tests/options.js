@@ -190,4 +190,33 @@
 
     } );
 
+    test( "heightStyle: auto", function() {
+        var $contents = this.$headers.next();
+        $contents.each( function( index ) {
+            var previous = $contents.eq( index - 1 ).height();
+
+            ok( $( this ).height() > previous - 2 );
+
+            ok( $( this ).height() < previous + 2 );
+
+        } );
+    } );
+
+    test( "heightStyle: auto-h: hidden", function() {
+        var height = this.$headers.next().height();
+
+        this.$div.maccordion( "destroy" );
+        this.$div.wrap("<div style=\"display: none\">");
+
+        ok( this.$div.is( ":hidden" ) );
+
+        this.$div.maccordion( { heightStyle: "auto-h" } );
+        this.$div.find( ".dattaya-maccordion-content" ).each( function() {
+
+            ok( $( this ).height() > height - 2 );
+
+            ok( $( this ).height() < height + 2 );
+
+        } );
+    } );
 })( jQuery );

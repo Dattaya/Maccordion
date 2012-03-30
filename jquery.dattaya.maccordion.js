@@ -42,7 +42,7 @@
             $headers
                 .toggleClass( "ui-state-active ui-corner-all ui-corner-top dattaya-maccordion-header-active" )
                 .maccordionToggleAttributes( "aria-selected aria-expanded" )
-                .find( ".dattaya-maccordion-header-icon" )
+                .children( ".dattaya-maccordion-header-icon" )
                     .toggleClass( options.icons.header + " " + options.icons.activeHeader );
 
             $toToggle.toggleClass( "dattaya-maccordion-content-active" );
@@ -191,15 +191,39 @@
         },
 
         _heightStyle: function() {
-            if ( this.options.heightStyle === "auto" ) {
-                var maxHeight = 0;
-                this.$headers.next()
-                    .height( "" )
-                    .each( function() {
-                        maxHeight = Math.max( maxHeight, $( this ).height() );
-                    } )
-                    .height( maxHeight );
+            var $contents = this.$headers.next();
+
+            if ( this.options.heightStyle === "auto-h" ) {
+                var el = this.element.clone()
+                    .css( {
+                        position: "absolute",
+                        top     : -10000,
+                        left    : -10000,
+                        display : "block"
+                    } );
+
+                el.appendTo( "body" );
+
+                var maxHeight = this._maxHeight( el.find( this.options.header ).next() );
+                el.remove();
+
+                $contents.height( maxHeight );
+
+            } else if ( this.options.heightStyle === "auto" ) {
+                $contents.height( this._maxHeight( $contents ) );
             }
+        },
+
+        _maxHeight: function( $contents ) {
+            var maxHeight = 0;
+
+            $contents
+                .height( "" )
+                .each( function() {
+                    maxHeight = Math.max( maxHeight, $( this ).height() );
+                } );
+
+            return maxHeight;
         },
 
         refresh: function() {

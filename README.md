@@ -2,8 +2,14 @@
 
 ## What is Maccordion?
 
-Maccordion is jQueryUI plugin, similar to [jQuery UI Accordion](http://jqueryui.com/demos/accordion/) but allows
+Maccordion is a jQueryUI plugin, similar to [jQuery UI Accordion](http://jqueryui.com/demos/accordion/) but allows
 more than one content panel to be opened at the same time.
+
+**Options:** disabled, active, effect, options, easing, speed, heightStyle, event, header, icons.
+
+**Methods:** destroy, disable, enable, option, widget, refresh.
+
+**Events:** create, beforeActivate, activate.
 
 ### Dependencies
 

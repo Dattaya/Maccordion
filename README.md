@@ -107,8 +107,11 @@ Duration of the effect.
 ### heightStyle
 **string *heightStyle* : auto**
 
+**false**
+Content panes height will be according to the height of inner content.
+
 **auto** 
-If set, the highest content part is used as height reference for all other parts. 
+If set, the highest content part is used as height reference for all other parts.
 
 ### event
 **string *event* : click** ([example](http://jsfiddle.net/Dattaya/CL7Mm/)) 

@@ -202,21 +202,4 @@
         } );
     } );
 
-    test( "heightStyle: auto-h: hidden", function() {
-        var height = this.$headers.next().height();
-
-        this.$div.maccordion( "destroy" );
-        this.$div.wrap("<div style=\"display: none\">");
-
-        ok( this.$div.is( ":hidden" ) );
-
-        this.$div.maccordion( { heightStyle: "auto-h" } );
-        this.$div.find( ".dattaya-maccordion-content" ).each( function() {
-
-            ok( $( this ).height() > height - 2 );
-
-            ok( $( this ).height() < height + 2 );
-
-        } );
-    } );
 })( jQuery );

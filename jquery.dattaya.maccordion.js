@@ -193,23 +193,7 @@
         _heightStyle: function() {
             var $contents = this.$headers.next();
 
-            if ( this.options.heightStyle === "auto-h" ) {
-                var el = this.element.clone()
-                    .css( {
-                        position: "absolute",
-                        top     : -10000,
-                        left    : -10000,
-                        display : "block"
-                    } );
-
-                el.appendTo( "body" );
-
-                var maxHeight = this._maxHeight( el.find( this.options.header ).next() );
-                el.remove();
-
-                $contents.height( maxHeight );
-
-            } else if ( this.options.heightStyle === "auto" ) {
+            if ( this.options.heightStyle === "auto" ) {
                 $contents.height( this._maxHeight( $contents ) );
             }
         },

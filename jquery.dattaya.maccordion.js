@@ -4,11 +4,11 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  * Depends:
- *	jquery.ui.core.js
- *	jquery.ui.widget.js
- *  These are required if "effect" option is not false
- *	jquery.ui.effects.core.js
- *	jquery.ui.effects.blind.js - default effect
+ *  jquery.ui.core.js
+ *  jquery.ui.widget.js
+ * These are required if "effect" option is not false
+ *  jquery.ui.effects.core.js
+ *  jquery.ui.effects.blind.js - default effect
  */
 
 (function( $, undefined ) {
@@ -30,8 +30,8 @@
         },
 
         _toggle: function( $headers, event ) {
-            var $toToggle = $headers.next().not(".ui-effects-wrapper").not(":animated");
-            var options = this.options,
+            var $toToggle = $headers.next().not(".ui-effects-wrapper").not(":animated"),
+                options = this.options,
                 data = { toggled: $headers = $toToggle.prev() },
                 self = this;
 
@@ -59,7 +59,7 @@
             }
         },
 
-        _eventHandler: function( event ) {
+        _handleEvent: function( event ) {
             var options = this.options;
 
             if ( options.disabled ) {
@@ -152,7 +152,7 @@
             this._toggle( this._transformActiveToElement( active ) );
         },
 
-        _keydown: function( event ) {
+        _handleKeydown: function( event ) {
             if ( this.options.disabled || event.altKey || event.ctrlKey ) {
                 return;
             }
@@ -177,7 +177,7 @@
                     break;
                 case keyCode.SPACE:
                 case keyCode.ENTER:
-                    this._eventHandler( event );
+                    this._handleEvent( event );
                     break;
                 default:
                     return;
@@ -194,11 +194,11 @@
             var $contents = this.$headers.next();
 
             if ( this.options.heightStyle === "auto" ) {
-                $contents.height( this._maxHeight( $contents ) );
+                $contents.height( this._getMaxHeight( $contents ) );
             }
         },
 
-        _maxHeight: function( $contents ) {
+        _getMaxHeight: function( $contents ) {
             var maxHeight = 0;
 
             $contents
@@ -255,7 +255,7 @@
         _setupEvents: function( event, $headers ) {
             if ( event ) {
                 $headers.on( event.split( " " ).join( ".maccordion " ) + ".maccordion",
-                    $.proxy( this, "_eventHandler" ) );
+                    $.proxy( this, "_handleEvent" ) );
             }
         },
 
@@ -313,7 +313,7 @@
                         $( this ).removeClass( "ui-state-focus" );
 
                     },
-                    "keydown.maccordion"   : $.proxy( this, "_keydown" )
+                    "keydown.maccordion"   : $.proxy( this, "_handleKeydown" )
             } );
 
             this._setupEvents( this.options.event, $headers );

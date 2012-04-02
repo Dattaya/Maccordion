@@ -17,6 +17,10 @@ more than one content panel to be opened at the same time.
 * UI Widget
 * UI Effects Core + UI Effects Blind if "effect" option is used.
 
+### Screenshot
+
+![Maccordion](http://dl.dropbox.com/u/55246206/dev/libraries/maccordion/maccordion.png)
+
 ## Options
 ### disabled
 **bool *disabled* : false** ([example](http://jsfiddle.net/Dattaya/VsByz/))

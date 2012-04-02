@@ -21,6 +21,10 @@ more than one content panel to be opened at the same time.
 
 ![Maccordion](http://dl.dropbox.com/u/55246206/dev/libraries/maccordion/maccordion.png)
 
+### Minified
+
+Minified Maccordion is stored on [SkyDrive](https://skydrive.live.com/?cid=633b5bd0d9753085&id=633B5BD0D9753085%211244#cid=633B5BD0D9753085&id=633B5BD0D9753085%211244).
+
 ## Options
 ### disabled
 **bool *disabled* : false** ([example](http://jsfiddle.net/Dattaya/VsByz/))
